@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="user">
+
+<!-- 연습 - sql 컴럼명과 Vo 필드값이 같이서 쓸일 없음 -->
+<resultMap id="resultMapUserVo" type="UserVo">
+	<result column="no" property="no" />
+	<result column="id" property="id" />
+	<result column="password" property="password" />
+	<result column="name" property="name" />
+	<result column="gender" property="gender" />
+</resultMap>
+
+	<select id="userInfo" parameterType="UserVo" resultMap="resultMapUserVo"> <!-- resultType="UserVo" -->
+		<![CDATA[
+			SELECT
+				no,
+				name
+			FROM
+				users
+			WHERE
+				id = #{ id }
+				AND password = #{ password }
+		]]>
+	</select>
+	
+	<insert id="insert" parameterType="UserVo">
+		<![CDATA[
+			INSERT INTO
+				users
+			VALUES (
+				sqc_users_no.NEXTVAL,
+				#{ id },
+				#{ password },
+				#{ name },
+				#{ gender }
+			)
+		]]>
+	</insert>
+	
+	<select id="authUserInfo" parameterType="int" resultType="UserVo">
+		<![CDATA[
+			SELECT
+				no,
+				id,
+				password,
+				name,
+				gender
+			FROM
+				users
+			WHERE
+				no = #{ no }
+		]]>
+	</select>
+	
+	<update id="update" parameterType="UserVo">
+		<![CDATA[
+			UPDATE
+				users
+			SET
+				password = #{ password },
+				name = #{ name },
+				gender = #{ gender }
+			WHERE
+				id = #{ id }
+		]]>
+	</update>
+
+</mapper>
