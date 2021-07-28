@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board">
+
+	<resultMap id="resultMapBoardVo" type="BoardVo">
+		<result column="no" property="no" />
+		<result column="title" property="title" />
+		<result column="content" property="content" />
+		<result column="hit" property="hit" />
+		<result column="reg_date" property="date" />
+		<result column="user_no" property="userNo" />
+		<result column="name" property="name" />
+	</resultMap>
+	
+	<select id="boardList" parameterType="String" resultMap="resultMapBoardVo">
+		<![CDATA[
+			SELECT
+			    b.no,
+			    b.title,
+			    b.hit,
+			    b.reg_date,
+			    b.user_no,
+			    u.name
+			FROM
+			    board b LEFT OUTER JOIN users u
+			    ON b.user_no = u.no
+		]]>
+
+		<if test=" value != null or value != '' ">
+	    <![CDATA[
+	    	WHERE
+			    b.title LIKE '%'||#{keyword}||'%'
+			    OR u.name LIKE '%'||#{keyword}||'%'
+		]]>
+		</if>
+
+	    <![CDATA[
+			ORDER BY
+				b.no DESC
+		]]>
+	</select>
+	
+	<select id="countList" resultType="int">
+		<![CDATA[
+			SELECT
+			    COUNT(no)
+			FROM
+			    (
+			        SELECT
+			            no
+			        FROM
+			            board
+			        )
+		]]>
+	</select>
+	
+	<update id="countHit" parameterType="int">
+		<![CDATA[
+			UPDATE
+				board
+			SET
+				hit = ( hit + 1 )
+			WHERE
+				no = #{ no }
+		]]>
+	</update>
+	
+	<select id="getBoard" parameterType="int" resultMap="resultMapBoardVo">
+		<![CDATA[
+			SELECT
+			    b.no,
+			    b.title,
+			    b.content,
+			    b.hit,
+			    b.reg_date,
+			    b.user_no,
+			    u.name
+			FROM
+			    board b, users u
+			WHERE
+			    b.user_no = u.no
+			    AND b.no = #{ no }
+		]]>
+	</select>
+	
+	<insert id="insert" parameterType="BoardVo">
+		<![CDATA[
+			INSERT INTO
+				board
+			VALUES
+				(
+					sqc_board_no.NEXTVAL,
+					#{ title },
+					#{ content },
+					0,
+					sysdate,
+					#{ userNo }
+				)
+		]]>
+	</insert>
+	
+	<update id="update" parameterType="BoardVo">
+		<![CDATA[
+			UPDATE
+				board
+			SET
+				title = #{ title },
+				content = #{ content}
+			WHERE
+				no = #{ no }
+		]]>
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		<![CDATA[
+			DELETE FROM
+				board
+			WHERE
+				no = #{ no }
+		]]>
+	</delete>
+
+</mapper>
