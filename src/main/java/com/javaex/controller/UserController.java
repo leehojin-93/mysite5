@@ -68,23 +68,30 @@ public class UserController {
 	
 	// modifyForm
 	@RequestMapping(value="/modifyForm", method = { RequestMethod.GET, RequestMethod.POST })
-	public String modifyForm(Model model, @RequestParam("no") int no) {
-		model.addAttribute("authUserInfo", userService.authUserInfo(no));
+	public String modifyForm(Model model, HttpSession session) {
+		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		
-		return "/user/modifyForm";
+		if (authUser != null) {
+			model.addAttribute("authUserInfo", userService.authUserInfo(authUser.getNo()));
+			 
+			return "/user/modifyForm";
+		
+		} else {
+			
+			return "/user/loginForm";
+		}
 	}
 	
 	// modify
 	@RequestMapping(value="/modify", method = { RequestMethod.GET, RequestMethod.POST })
 	public String modify(@ModelAttribute UserVo userVo, HttpSession session) {
-//		userVo = ((UserVo)session.getAttribute("authUser"));
-		
-//		System.out.println(userVo);
-		
-//		((UserVo)session.getAttribute("authUser")).setName(userVo.getName());
+//		userVo.setNo(((UserVo)session.getAttribute("authUser")).getNo());
+		// int no = ((UserVo)session.getAttribute("authUser")).getNo()
+		// userVo.setNo(no);
 		
 		UserVo authUser = userService.update(userVo);
 		
+//		((UserVo)session.getAttribute("authUser")).setName(authUser.getName());
 		session.setAttribute("authUser", authUser);
 		
 		return "redirect:/main";

@@ -49,12 +49,12 @@
 				<div id="user">
 					<div id="modifyForm">
 						<form action="${ pageContext.request.contextPath }/user/modify" method="post">
-						<input type="hidden" name="id" value="${ authUserInfo.id }">
-	
+						
 							<!-- 아이디 -->
 							<div class="form-group">
 								<label class="form-text" for="input-uid">아이디</label> 
-								<span class="text-large bold">${ requestScope.authUserInfo.id }</span>
+								<%-- <span class="text-large bold">${ requestScope.authUserInfo.id }</span> --%>
+								<input class="text-large bold" type="text" name="id" value="${ authUserInfo.id }" style="border:none;" readonly>
 							</div>
 	
 							<!-- 비밀번호 -->
