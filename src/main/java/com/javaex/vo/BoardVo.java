@@ -1,7 +1,7 @@
 package com.javaex.vo;
 
 public class BoardVo {
-	
+
 	private int no;
 	private String title;
 	private String content;
@@ -9,11 +9,11 @@ public class BoardVo {
 	private String date;
 	private int userNo;
 	private String name;
-	
+
 	public BoardVo() {
-		
+
 	}
-	
+
 	public BoardVo(int no, String title, String content, int hit, String date, int userNo, String name) {
 		this.no = no;
 		this.title = title;
@@ -85,5 +85,5 @@ public class BoardVo {
 		return "BoardVo [no=" + no + ", title=" + title + ", content=" + content + ", hit=" + hit + ", date=" + date
 				+ ", userNo=" + userNo + ", name=" + name + "]";
 	}
-	
+
 }

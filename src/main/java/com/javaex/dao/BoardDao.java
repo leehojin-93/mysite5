@@ -20,9 +20,8 @@ public class BoardDao {
 		return bList;
 	}
 	
-	public int countList() {
-		
-		return sqlSession.selectOne("board.countList");
+	public int countList(String keyword) {
+		return sqlSession.selectOne("board.countList", keyword);
 	}
 
 	public int countHit(int no) {

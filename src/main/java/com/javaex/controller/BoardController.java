@@ -23,7 +23,7 @@ public class BoardController {
 	
 	@RequestMapping(value="/list", method = { RequestMethod.GET, RequestMethod.POST })
 	public String list(Model model, @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword) {
-		model.addAttribute("boardList", boardService.boardList(keyword));
+		model.addAttribute("boardMap", boardService.boardMap(keyword));
 		
 		return "/board/list";
 	}

@@ -1,6 +1,8 @@
 package com.javaex.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,9 +16,15 @@ public class BoardService {
 	@Autowired
 	private BoardDao boardDao;
 
-	public List<BoardVo> boardList(String keyword) {
-//		boardDao.countList();
-		return boardDao.boardList(keyword);
+	public Map<String, Object> boardMap(String keyword) {
+//		int countList = boardDao.countList(keyword);
+//		List<BoardVo> boardList = boardDao.boardList(keyword);
+		
+		Map<String, Object> boardMap = new HashMap<String, Object>();
+		boardMap.put("countList", boardDao.countList(keyword));
+		boardMap.put("boardList", boardDao.boardList(keyword));
+		
+		return boardMap;
 	}
 
 	public BoardVo getBoard(int no) {

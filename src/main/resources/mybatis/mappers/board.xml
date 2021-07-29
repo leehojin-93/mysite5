@@ -13,7 +13,7 @@
 		<result column="user_no" property="userNo" />
 		<result column="name" property="name" />
 	</resultMap>
-	
+
 	<select id="boardList" parameterType="String" resultMap="resultMapBoardVo">
 		<![CDATA[
 			SELECT
@@ -42,18 +42,35 @@
 		]]>
 	</select>
 	
-	<select id="countList" resultType="int">
+	<select id="countList" parameterType="String" resultType="int">
 		<![CDATA[
 			SELECT
 			    COUNT(no)
-			FROM
-			    (
-			        SELECT
-			            no
-			        FROM
-			            board
-			        )
 		]]>
+		<choose>
+			<when test=" value != null or value != '' ">
+		    <![CDATA[
+		    	FROM
+		    		(
+		    			SELECT
+		    				b.no
+		    			FROM
+		    				board b RIGHT OUTER JOIN users u
+		    				ON u.no = b.user_no
+		    			WHERE
+						    b.title LIKE '%'||#{keyword}||'%'
+						    OR u.name LIKE '%'||#{keyword}||'%'
+						)
+			]]>
+			</when>
+			
+			<otherwise>
+			<![CDATA[
+				FROM
+					board
+			]]>
+			</otherwise>
+		</choose>
 	</select>
 	
 	<update id="countHit" parameterType="int">

@@ -64,9 +64,9 @@
 								</tr>
 							</thead>
 							<tbody>
-							<c:forEach items="${ requestScope.boardList }" var="listVo" varStatus="status">
+							<c:forEach items="${ requestScope.boardMap.boardList }" var="listVo" varStatus="status">
 								<tr>
-									<td>${ listVo.no }</td>
+									<td>${ requestScope.boardMap.countList - status.index }</td>
 									<td class="text-left"><a href="${ pageContext.request.contextPath }/board/read?no=${ listVo.no }">${ listVo.title }</a></td>
 									<td>${ listVo.name }</td>
 									<td>${ listVo.hit }</td>
