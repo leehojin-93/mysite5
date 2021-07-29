@@ -45,14 +45,14 @@ public class BoardController {
 	
 	@RequestMapping(value="/read", method = { RequestMethod.GET, RequestMethod.POST })
 	public String read(Model model, @RequestParam("no") int no) {
-		model.addAttribute("getBoard", boardService.getBoard(no));
+		model.addAttribute("getBoard", boardService.getBoardRead(no));
 
 		return "/board/read";
 	}
 	
 	@RequestMapping(value="/modifyForm", method = { RequestMethod.GET, RequestMethod.POST })
 	public String modifyForm(Model model, @RequestParam("no") int no) {
-		model.addAttribute("getBoard", boardService.getBoard(no));
+		model.addAttribute("getBoard", boardService.getBoardModifyForm(no));
 
 		return "/board/modifyForm";
 	}

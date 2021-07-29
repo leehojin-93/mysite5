@@ -27,9 +27,14 @@ public class BoardService {
 		return boardMap;
 	}
 
-	public BoardVo getBoard(int no) {
+	public BoardVo getBoardRead(int no) {
 		boardDao.countHit(no);
 
+		return boardDao.getBoard(no);
+	}
+	
+	public BoardVo getBoardModifyForm(int no) {
+		
 		return boardDao.getBoard(no);
 	}
 	
