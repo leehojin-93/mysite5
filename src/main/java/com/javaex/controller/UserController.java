@@ -85,14 +85,21 @@ public class UserController {
 	// modify
 	@RequestMapping(value="/modify", method = { RequestMethod.GET, RequestMethod.POST })
 	public String modify(@ModelAttribute UserVo userVo, HttpSession session) {
-//		userVo.setNo(((UserVo)session.getAttribute("authUser")).getNo());
-		// int no = ((UserVo)session.getAttribute("authUser")).getNo()
-		// userVo.setNo(no);
 		
-		UserVo authUser = userService.update(userVo);
+		// modifyForm에서 id 파라미터 받지 않을때
+		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		int no = authUser.getNo();
+		userVo.setNo(no);
 		
-//		((UserVo)session.getAttribute("authUser")).setName(authUser.getName());
-		session.setAttribute("authUser", authUser);
+		userService.update(userVo); // userVo = password, name, gender, no
+		
+		String authUserModifyName = userVo.getName();
+		
+		authUser.setName(authUserModifyName);
+		
+		// modifyForm에서 id 파라미터 받을때
+//		authUser = userService.update(userVo); // userVo = id, password, name, gender
+//		session.setAttribute("authUser", authUser);
 		
 		return "redirect:/main";
 	}

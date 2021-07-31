@@ -31,11 +31,12 @@ public class UserService {
 		return authUserInfo;
 	}
 	
-	public UserVo update(UserVo userVo) {
-		userDao.update(userVo);
-		UserVo authUser = userDao.userInfo(userVo);
+	public int update(UserVo userVo) {
+		return userDao.update(userVo);
 		
-		return authUser;
+		// modifyForm에서 id 파라미터 받을때
+//		UserVo authUser = userDao.userInfo(userVo);
+//		return authUser;
 	}
 
 }

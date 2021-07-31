@@ -64,9 +64,9 @@
 				name = #{ name },
 				gender = #{ gender }
 			WHERE
-				id = #{ id }
+				no = #{ no }
 		]]>
-		<!-- no = #{ no } -->
 	</update>
+	<!-- modifyForm에서 id 파라미터 받을때 WHERE id = #{ id } -->
 
 </mapper>
