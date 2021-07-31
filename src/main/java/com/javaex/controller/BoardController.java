@@ -129,9 +129,14 @@ public class BoardController {
 		}
 		
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		
+		if (authUser == null) {
+			return "redirect:/board/list";
+		}
+		
 		int authUserNo = authUser.getNo();
 		
-		BoardVo getBoard = boardService.delete(no);
+		BoardVo getBoard = boardService.getBoardModifyForm(no);
 		int boardUserNo = getBoard.getUserNo();
 		
 		if (authUserNo == boardUserNo) {
