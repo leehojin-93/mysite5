@@ -34,7 +34,7 @@ public class UserService {
 	public int update(UserVo userVo) {
 		return userDao.update(userVo);
 		
-		// modifyForm에서 id 파라미터 받을때
+		// modifyForm에서 id 파라미터 받을때 = public int update(UserVo userVo) --> public UserVo update(UserVo userVo)
 //		UserVo authUser = userDao.userInfo(userVo);
 //		return authUser;
 	}

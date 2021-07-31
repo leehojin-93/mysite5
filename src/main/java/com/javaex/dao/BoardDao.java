@@ -20,10 +20,15 @@ public class BoardDao {
 		return bList;
 	}
 	
-	public int countList(String keyword) {
-		return sqlSession.selectOne("board.countList", keyword);
+	public int listCount(String keyword) {
+		return sqlSession.selectOne("board.listCount", keyword);
 	}
 
+	public int write(BoardVo boardVo) {
+		
+		return sqlSession.insert("board.write", boardVo);
+	}
+	
 	public int countHit(int no) {
 		return sqlSession.update("board.countHit", no);
 
@@ -32,11 +37,6 @@ public class BoardDao {
 	public BoardVo getBoard(int no) {
 		return sqlSession.selectOne("board.getBoard", no);
 
-	}
-	
-	public int insert(BoardVo boardVo) {
-		
-		return sqlSession.insert("board.insert", boardVo);
 	}
 	
 	public int update(BoardVo boardVo) {

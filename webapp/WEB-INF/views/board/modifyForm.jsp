@@ -48,7 +48,7 @@
 	
 				<div id="board">
 					<div id="modifyForm">
-						<form action="${ pageContext.request.contextPath }/board/modify" method="get">
+						<form action="${ pageContext.request.contextPath }/board/modify" method="post">
 							<!-- 작성자 -->
 							<div class="form-group">
 								<span class="form-text">작성자</span>

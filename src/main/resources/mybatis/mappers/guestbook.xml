@@ -29,7 +29,7 @@
 		]]>
 	</select>
 	
-	<insert id="insert" parameterType="GuestVo">
+	<insert id="addGuestbook" parameterType="GuestVo">
 		<![CDATA[
 			INSERT INTO
 				guestbook
@@ -44,7 +44,7 @@
 		]]>
 	</insert>
 	
-	<delete id="delete" parameterType="GuestVo">
+	<delete id="deleteGuestbook" parameterType="GuestVo">
 		<![CDATA[
 			DELETE FROM
 				guestbook

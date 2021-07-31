@@ -20,12 +20,12 @@ public class GuestbookService {
 		return gList;
 	}
 	
-	public void insert(GuestbookVo guestbookVo){
-		guestbookDao.insert(guestbookVo);
+	public void addGuestbook(GuestbookVo guestbookVo){
+		guestbookDao.addGuestbook(guestbookVo);
 	}
 	
-	public void delete(GuestbookVo guestbookVo) {
-		guestbookDao.delete(guestbookVo);
+	public void deleteGuestbook(GuestbookVo guestbookVo) {
+		guestbookDao.deleteGuestbook(guestbookVo);
 	}
 
 }

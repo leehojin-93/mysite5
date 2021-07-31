@@ -22,14 +22,14 @@ public class GuestbookDao {
 	}
 	
 	// insert
-	public void insert(GuestbookVo guestbookVo) {
-		sqlSession.insert("guestbook.insert", guestbookVo);
+	public void addGuestbook(GuestbookVo guestbookVo) {
+		sqlSession.insert("guestbook.addGuestbook", guestbookVo);
 		
 	}
 	
 	// delete
-	public void delete(GuestbookVo guestbookVo) {
-		sqlSession.delete("guestbook.delete", guestbookVo);
+	public void deleteGuestbook(GuestbookVo guestbookVo) {
+		sqlSession.delete("guestbook.deleteGuestbook", guestbookVo);
 		
 	}
 	

@@ -57,7 +57,14 @@
 							<tbody>
 								<tr>
 									<th><label class="form-text" for="input-uname">이름</label></th>
-									<td><input id="input-uname" type="text" name="name"></td>
+									<c:choose>
+										<c:when test="${ !empty sessionScope.authUser }">
+											<td><input id="input-uname" type="text" name="name" value="${ sessionScope.authUser.name }"></td>
+										</c:when>
+										<c:otherwise>
+											<td><input id="input-uname" type="text" name="name" value=""></td>
+										</c:otherwise>
+									</c:choose>
 									<th><label class="form-text" for="input-pass">패스워드</label></th>
 									<td><input id="input-pass"type="password" name="password"></td>
 								</tr>

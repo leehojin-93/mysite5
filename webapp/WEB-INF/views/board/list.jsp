@@ -64,15 +64,15 @@
 								</tr>
 							</thead>
 							<tbody>
-							<c:forEach items="${ requestScope.boardMap.boardList }" var="listVo" varStatus="status">
+							<c:forEach items="${ requestScope.boardMap.boardList }" var="boardVo" varStatus="status">
 								<tr>
-									<td>${ requestScope.boardMap.countList - status.index }</td>
-									<td class="text-left"><a href="${ pageContext.request.contextPath }/board/read?no=${ listVo.no }">${ listVo.title }</a></td>
-									<td>${ listVo.name }</td>
-									<td>${ listVo.hit }</td>
-									<td>${ listVo.date }</td>
-									<c:if test="${ sessionScope.authUser.no eq listVo.userNo }">
-										<td><a href="${ pageContext.request.contextPath }/board/delete?no=${ listVo.no }">[삭제]</a></td>
+									<td>${ requestScope.boardMap.listCount - status.index }</td>
+									<td class="text-left"><a href="${ pageContext.request.contextPath }/board/read?no=${ boardVo.no }">${ boardVo.title }</a></td>
+									<td>${ boardVo.name }</td>
+									<td>${ boardVo.hit }</td>
+									<td>${ boardVo.date }</td>
+									<c:if test="${ sessionScope.authUser.no eq boardVo.userNo }">
+										<td><a href="${ pageContext.request.contextPath }/board/delete?no=${ boardVo.no }">[삭제]</a></td>
 									</c:if>
 								</tr>
 							</c:forEach>

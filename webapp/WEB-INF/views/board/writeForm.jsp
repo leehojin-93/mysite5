@@ -61,7 +61,14 @@
 							</div>
 							
 							<a id="btn_cancel" href="${ pageContext.request.contextPath }/board/list">취소</a>
-							<button id="btn_add" type="submit" >등록</button>
+							<c:choose>
+								<c:when test="${ !empty sessionScope.authUser }">
+									<button id="btn_add" type="submit" >등록</button>
+								</c:when>
+								<c:otherwise>
+									<a id="btn_add" href="${ pageContext.request.contextPath }/user/loginForm">로그인 하기</a>
+								</c:otherwise>
+							</c:choose>
 							
 						</form>
 						<!-- //form -->
