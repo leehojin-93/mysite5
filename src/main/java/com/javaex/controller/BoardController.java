@@ -1,13 +1,12 @@
 package com.javaex.controller;
 
-import java.util.Map;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,20 +16,20 @@ import com.javaex.vo.BoardVo;
 import com.javaex.vo.UserVo;
 
 @Controller
-@RequestMapping(value="/board", method = { RequestMethod.GET, RequestMethod.POST })
+@RequestMapping(value = "/board", method = { RequestMethod.GET, RequestMethod.POST })
 public class BoardController {
 	
 	@Autowired
 	private BoardService boardService;
 	
-	@RequestMapping(value="/list", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/list", method = { RequestMethod.GET, RequestMethod.POST })
 	public String list(Model model, @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword) {
-		model.addAttribute("boardMap", boardService.boardMap(keyword)); // --> boardDao.listCount(keyword), boardDao.boardList(keyword)
+		model.addAttribute("boardMap", boardService.boardMap(keyword)); // --> boardMap = { boardDao.listCount(keyword), boardDao.boardList(keyword) }
 		
 		return "/board/list";
 	}
 	
-	@RequestMapping(value="/writeForm", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/writeForm", method = { RequestMethod.GET, RequestMethod.POST })
 	public String writeForm(HttpSession session) {
 		// 로그인 정보가 없을때
 		
@@ -50,7 +49,7 @@ public class BoardController {
 		
 	}
 	
-	@RequestMapping(value="/write", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/write", method = { RequestMethod.GET, RequestMethod.POST })
 	public String write(@ModelAttribute BoardVo boardVo, HttpSession session) {
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		
@@ -72,9 +71,10 @@ public class BoardController {
 		return "redirect:/board/list";
 	}
 	
-	@RequestMapping(value="/read", method = { RequestMethod.GET, RequestMethod.POST })
-	public String read(Model model, @RequestParam(value = "no", required = false, defaultValue = "0") int no) {
-		if (no == 0) { // read에 no파라미터가 입력되지 않았을때 0으로 처리하고 redirect:/board/list
+	@RequestMapping(value = {"/read/{no}", "/read/{0}", "/read/{null}"}, method = { RequestMethod.GET, RequestMethod.POST })
+	public String read(Model model, @PathVariable(value = "no", required = false/*, defaultValue = "0" */) Integer no) {
+		// @PathVariable에 defaultValue 사용 불가능: @RequestMapping의 value 값 추가: /read/ 뒤의 값이 오지 않을 경우 ERROR
+		if (no == 0 || no == null) { // read에 no파라미터가 입력되지 않았을때 0으로 처리하고 redirect:/board/list
 			return "redirect:/board/list";
 			
 		} else {
@@ -84,7 +84,7 @@ public class BoardController {
 		}
 	}
 	
-	@RequestMapping(value="/modifyForm", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/modifyForm", method = { RequestMethod.GET, RequestMethod.POST })
 	public String modifyForm(Model model, @RequestParam(value = "no", required = false, defaultValue = "0") int no, HttpSession session) {
 		
 		if (no == 0) { // modifyForm에 no파라미터가 입력되지 않았을때 0으로 처리하고 redirect:/board/list
@@ -114,7 +114,7 @@ public class BoardController {
 		
 	}
 	
-	@RequestMapping(value="/modify", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/modify", method = { RequestMethod.GET, RequestMethod.POST })
 	public String modify(@ModelAttribute BoardVo boardVo) {
 		String boardVoTitle = boardVo.getTitle();
 		int boardVoNo = boardVo.getNo();
@@ -129,7 +129,7 @@ public class BoardController {
 		return "redirect:/board/read?no=" + boardVoNo;
 	}
 	
-	@RequestMapping(value="/delete", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/delete", method = { RequestMethod.GET, RequestMethod.POST })
 	public String delete(@RequestParam(value = "no", required = false, defaultValue = "0") int no, HttpSession session) {
 		
 		if (no == 0) {
@@ -143,10 +143,21 @@ public class BoardController {
 			
 			int authUserNo = authUser.getNo();
 			
+			// Map 오류(로그인만하면 파라미터값으로 삭제가능) or service 2개 사용
+			/*
+			Map<String, Object> deleteMap = boardService.delete(no); // 여기서 delete가 실행 되는건가
+			BoardVo getBoard = (BoardVo)deleteMap.get("getBoard");
+			int boardUserNo = getBoard.getUserNo();
+			*/
+			
 			BoardVo getBoard = boardService.getBoardModifyForm(no);
 			int boardUserNo = getBoard.getUserNo();
 			
+			System.out.println(authUserNo);
+			System.out.println(boardUserNo);
+			
 			if (authUserNo == boardUserNo ) { // ((BoardVo)boardService.delete(no).get("getBoard")).getUserNo()
+//				deleteMap.get("delete");
 				boardService.delete(no);
 				
 				return "redirect:/board/list";

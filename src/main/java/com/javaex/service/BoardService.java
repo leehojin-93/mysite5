@@ -52,14 +52,13 @@ public class BoardService {
 		return boardDao.modify(boardVo);
 	}
 	
-	public int delete(int no) {
-		/*
+	public Map<String, Object> delete(int no) {
+		
 		Map<String, Object> deleteMap = new HashMap<String, Object>();
 		deleteMap.put("getBoard", boardDao.getBoard(no));
 		deleteMap.put("delete", boardDao.delete(no));
-		*/
 		
-		return boardDao.delete(no);
+		return deleteMap;
 	}
 
 }
