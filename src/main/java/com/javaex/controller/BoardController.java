@@ -109,9 +109,10 @@ public class BoardController {
 	@RequestMapping(value="/modify", method = { RequestMethod.GET, RequestMethod.POST })
 	public String modify(@ModelAttribute BoardVo boardVo) {
 		String boardVoTitle = boardVo.getTitle();
+		int boardVoNo = boardVo.getNo();
 		
-		if (boardVoTitle == null) {
-			return "redirect:/board/list";
+		if (boardVoTitle == null) { // modify할때 제목이 빈칸이면 해당 글 read로 이동 및 DB 에서 처리
+			return "redirect:/board/read?no=" + boardVoNo;
 		}
 		
 		int no = boardVo.getNo();
