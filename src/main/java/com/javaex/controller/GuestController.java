@@ -26,7 +26,7 @@ public class GuestController {
 		
 		return "/guestbook/addList";
 	}
-	
+
 	// add
 	@RequestMapping(value = "/add", method = { RequestMethod.GET, RequestMethod.POST })
 	public String add(@ModelAttribute GuestbookVo guestbookVo) {
