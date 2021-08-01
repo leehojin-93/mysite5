@@ -43,13 +43,13 @@ public class BoardService {
 		return boardDao.getBoard(no);
 	}
 	
-	public int update(BoardVo boardVo) {
+	public int modify(BoardVo boardVo) {
 //		Map<String, Object> boardModifyMap = new HashMap<String, Object>();
 //		boardModifyMap.put("no", boardVo.getNo());
 //		boardModifyMap.put("title", boardVo.getTitle());
 //		boardModifyMap.put("content", boardVo.getContent());
 		
-		return boardDao.update(boardVo);
+		return boardDao.modify(boardVo);
 	}
 	
 	public BoardVo delete(int no) {

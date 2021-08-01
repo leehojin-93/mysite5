@@ -39,9 +39,9 @@ public class BoardDao {
 
 	}
 	
-	public int update(BoardVo boardVo) {
+	public int modify(BoardVo boardVo) {
 		
-		return sqlSession.update("board.update", boardVo);
+		return sqlSession.update("board.modify", boardVo);
 	}
 	
 	public int delete(int no) {
