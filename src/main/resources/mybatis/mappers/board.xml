@@ -80,8 +80,39 @@
 			VALUES
 				(
 					sqc_board_no.NEXTVAL,
+		]]>
+		
+		<choose>
+			<when test=" title == '' and content != '' ">
+			<![CDATA[
+					'제목을 입력해 주세요',
+					#{ content },
+			]]>
+			</when>
+			
+			<when test=" title != '' and content == '' ">
+			<![CDATA[
+					#{ title },
+					'내용을 입력해 주세요',
+			]]>
+			</when>
+			
+			<when test=" title == '' and content == '' ">
+			<![CDATA[
+					'제목을 입력해 주세요',
+					'내용을 입력해 주세요',
+			]]>
+			</when>
+			
+			<otherwise>
+			<![CDATA[
 					#{ title },
 					#{ content },
+			]]>
+			</otherwise>
+		</choose>
+		
+		<![CDATA[
 					0,
 					sysdate,
 					#{ userNo }
@@ -118,24 +149,40 @@
 		]]>
 	</select>
 	
-	<update id="update" parameterType="BoardVo">
+	<update id="modify" parameterType="BoardVo">
 		<![CDATA[
 			UPDATE
 				board
 		]]>
 		<choose>
-			<when test=" title != '' ">
+			<when test=" title == '' and content != '' ">
+			<![CDATA[
+				SET
+					title = '제목을 입력해 주세요',
+					content = #{ content }
+			]]>
+			</when>
+			
+			<when test=" title != '' and content == '' ">
 			<![CDATA[
 				SET
 					title = #{ title },
-					content = #{ content }
+					content = '내용을 입력해 주세요'
+			]]>
+			</when>
+			
+			<when test=" title == '' and content == '' ">
+			<![CDATA[
+				SET
+					title = '제목을 입력해 주세요',
+					content = '내용을 입력해 주세요'
 			]]>
 			</when>
 			
 			<otherwise>
 			<![CDATA[
 				SET
-					title = '제목을 입력해 주세요',
+					title = #{ title },
 					content = #{ content }
 			]]>
 			</otherwise>

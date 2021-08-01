@@ -56,6 +56,12 @@ public class BoardController {
 			return "redirect:/user/loginForm";
 		}
 		
+		String boardVoTitle = boardVo.getTitle();
+
+		if (boardVoTitle == null) { // write를 url로 접속 했을 경우
+			return "redirect:/board/list";
+		}
+		
 		int authUserNo = authUser.getNo();
 		boardVo.setUserNo(authUserNo);
 		
@@ -110,12 +116,13 @@ public class BoardController {
 	public String modify(@ModelAttribute BoardVo boardVo) {
 		String boardVoTitle = boardVo.getTitle();
 		int boardVoNo = boardVo.getNo();
-		
-		if (boardVoTitle == null) { // modify할때 제목이 빈칸이면 해당 글 read로 이동 및 DB 에서 처리
+
+		if (boardVoTitle == null) { // modify를 url로 접속 했을 경우
 			return "redirect:/board/read?no=" + boardVoNo;
 		}
+
 		
-		boardService.update(boardVo);
+		boardService.modify(boardVo);
 		
 		return "redirect:/board/read?no=" + boardVoNo;
 	}
