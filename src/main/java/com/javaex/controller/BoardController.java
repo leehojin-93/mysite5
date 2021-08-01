@@ -115,11 +115,9 @@ public class BoardController {
 			return "redirect:/board/read?no=" + boardVoNo;
 		}
 		
-		int no = boardVo.getNo();
-		
 		boardService.update(boardVo);
 		
-		return "redirect:/board/read?no=" + no;
+		return "redirect:/board/read?no=" + boardVoNo;
 	}
 	
 	@RequestMapping(value="/delete", method = { RequestMethod.GET, RequestMethod.POST })
