@@ -1,5 +1,7 @@
 package com.javaex.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -144,7 +146,7 @@ public class BoardController {
 			BoardVo getBoard = boardService.getBoardModifyForm(no);
 			int boardUserNo = getBoard.getUserNo();
 			
-			if (authUserNo == boardUserNo) {
+			if (authUserNo == boardUserNo ) { // ((BoardVo)boardService.delete(no).get("getBoard")).getUserNo()
 				boardService.delete(no);
 				
 				return "redirect:/board/list";

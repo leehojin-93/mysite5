@@ -53,7 +53,11 @@ public class BoardService {
 	}
 	
 	public int delete(int no) {
-//		boardDao.getBoard(no);
+		/*
+		Map<String, Object> deleteMap = new HashMap<String, Object>();
+		deleteMap.put("getBoard", boardDao.getBoard(no));
+		deleteMap.put("delete", boardDao.delete(no));
+		*/
 		
 		return boardDao.delete(no);
 	}
