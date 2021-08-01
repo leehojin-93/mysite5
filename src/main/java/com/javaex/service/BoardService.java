@@ -52,10 +52,10 @@ public class BoardService {
 		return boardDao.modify(boardVo);
 	}
 	
-	public BoardVo delete(int no) {
-		boardDao.delete(no);
+	public int delete(int no) {
+//		boardDao.getBoard(no);
 		
-		return boardDao.getBoard(no);
+		return boardDao.delete(no);
 	}
 
 }
