@@ -126,27 +126,27 @@ public class BoardController {
 		
 		if (no == 0) {
 			return "redirect:/board/list";
-		}
-		
-		UserVo authUser = (UserVo)session.getAttribute("authUser");
-		
-		if (authUser == null) {
-			return "redirect:/board/list";
-		}
-		
-		int authUserNo = authUser.getNo();
-		
-		BoardVo getBoard = boardService.getBoardModifyForm(no);
-		int boardUserNo = getBoard.getUserNo();
-		
-		if (authUserNo == boardUserNo) {
-			boardService.delete(no);
-			
-			return "redirect:/board/list";
 		} else {
-		
-			return "redirect:/board/list";
+			UserVo authUser = (UserVo)session.getAttribute("authUser");
+			
+			if (authUser == null) {
+				return "redirect:/board/list";
+			}
+			
+			int authUserNo = authUser.getNo();
+			
+			BoardVo getBoard = boardService.getBoardModifyForm(no);
+			int boardUserNo = getBoard.getUserNo();
+			
+			if (authUserNo == boardUserNo) {
+				boardService.delete(no);
+				
+				return "redirect:/board/list";
+			}
+			
 		}
+		
+		return "redirect:/board/list";
 	}
 
 }
