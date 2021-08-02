@@ -1,7 +1,6 @@
 package com.javaex.service;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +51,7 @@ public class BoardService {
 		return boardDao.modify(boardVo);
 	}
 	
+	/*
 	public Map<String, Object> delete(int no) {
 		
 		Map<String, Object> deleteMap = new HashMap<String, Object>();
@@ -59,6 +59,12 @@ public class BoardService {
 		deleteMap.put("delete", boardDao.delete(no));
 		
 		return deleteMap;
+	}
+	*/
+	
+	public int delete(BoardVo boardVo) {
+		
+		return boardDao.delete(boardVo);
 	}
 
 }
