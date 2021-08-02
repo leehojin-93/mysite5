@@ -71,10 +71,10 @@ public class BoardController {
 		return "redirect:/board/list";
 	}
 	
-	@RequestMapping(value = {"/read/{no}", "/read/{0}", "/read/{null}"}, method = { RequestMethod.GET, RequestMethod.POST })
-	public String read(Model model, @PathVariable(value = "no", required = false/*, defaultValue = "0" */) Integer no) {
+	@RequestMapping(value = "/read", method = { RequestMethod.GET, RequestMethod.POST })
+	public String read(Model model, @RequestParam(value = "no", required = false, defaultValue = "0") int no) {
 		// @PathVariable에 defaultValue 사용 불가능: @RequestMapping의 value 값 추가: /read/ 뒤의 값이 오지 않을 경우 ERROR
-		if (no == 0 || no == null) { // read에 no파라미터가 입력되지 않았을때 0으로 처리하고 redirect:/board/list
+		if (no == 0) { // read에 no파라미터가 입력되지 않았을때 0으로 처리하고 redirect:/board/list
 			return "redirect:/board/list";
 			
 		} else {
@@ -131,6 +131,7 @@ public class BoardController {
 	
 	@RequestMapping(value = "/delete", method = { RequestMethod.GET, RequestMethod.POST })
 	public String delete(@RequestParam(value = "no", required = false, defaultValue = "0") int no, HttpSession session) {
+		BoardVo boardVo = new BoardVo();
 		
 		if (no == 0) {
 			return "redirect:/board/list";
@@ -149,7 +150,7 @@ public class BoardController {
 			BoardVo getBoard = (BoardVo)deleteMap.get("getBoard");
 			int boardUserNo = getBoard.getUserNo();
 			*/
-			
+			/*
 			BoardVo getBoard = boardService.getBoardModifyForm(no);
 			int boardUserNo = getBoard.getUserNo();
 			
@@ -162,10 +163,16 @@ public class BoardController {
 				
 				return "redirect:/board/list";
 			}
+			*/
 			
+			boardVo.setNo(no);
+			boardVo.setUserNo(authUserNo);
+			
+			boardService.delete(boardVo);
+			
+			return "redirect:/board/list";
 		}
 		
-		return "redirect:/board/list";
 	}
 
 }
