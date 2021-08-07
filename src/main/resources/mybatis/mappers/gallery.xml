@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="gallery">
+
+<resultMap id="resultMapGallery" type="GalleryVo">
+	<result column="no" property="no" />
+	<result column="content" property="content" />
+	<result column="file_path" property="filePath" />
+	<result column="org_name" property="orgName" />
+	<result column="save_name" property="saveName" />
+	<result column="file_size" property="fileSize" />
+	<result column="user_no" property="userNo" />
+</resultMap>
+
+<select id="getList" resultMap="resultMapGallery">
+	<![CDATA[
+		SELECT
+			g.no,
+			g.content,
+			g.file_path,
+			g.org_name,
+			g.save_name,
+			g.file_size,
+			u.no,
+			u.name
+		FROM
+			gallery g LEFT OUTER JOIN users u
+			ON g.user_no = u.no
+		ORDER BY
+			g.no DESC
+	]]>
+</select>
+
+
+<insert id="addGalleryFile" parameterType="GalleryVo">
+	<![CDATA[
+		INSERT INTO
+			gallery
+		VALUES
+			(
+				sqc_gallery_no.NEXTVAL,
+				#{ content },
+				#{ filePath },
+				#{ orgName },
+				#{ saveName },
+				#{ fileSize },
+				#{ userNo }
+			)
+	]]>
+</insert>
+
+
+<select id="galleryInfo" parameterType="int" resultMap="resultMapGallery">
+	<![CDATA[
+		SELECT
+			g.no,
+			g.content,
+			g.file_path,
+			g.org_name,
+			g.save_name,
+			g.file_size,
+			g.user_no,
+			u.name
+		FROM
+			gallery g LEFT OUTER JOIN users u
+			ON g.user_no = u.no
+		WHERE
+			g.no = #{ no }
+	]]>
+</select>
+
+</mapper>
