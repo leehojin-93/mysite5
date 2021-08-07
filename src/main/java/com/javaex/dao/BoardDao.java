@@ -1,6 +1,7 @@
 package com.javaex.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,20 @@ public class BoardDao {
 
 	@Autowired
 	private SqlSession sqlSession;
+	
+	// paging practice - list
+	public List<BoardVo> boardList2(Map<String, Object> pageInfo) {
+		System.out.println("boardDao: boardList2;");
+		
+		return sqlSession.selectList("board.boardList2", pageInfo);
+	}
+	
+	// paging practice - listCount
+	public int selectTotalCnt(String keyword) {
+		System.out.println("boardDao: selectTotalCnt;");
+		
+		return sqlSession.selectOne("board.selectTotalCnt", keyword);
+	}
 
 	public List<BoardVo> boardList(String keyword) {
 		List<BoardVo> bList = sqlSession.selectList("board.boardList", keyword);

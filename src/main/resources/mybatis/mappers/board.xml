@@ -14,6 +14,92 @@
 		<result column="name" property="name" />
 	</resultMap>
 
+	<!-- paging practice - list -->
+	<select id="boardList2" parameterType="map" resultMap="resultMapBoardVo">
+		<![CDATA[
+			SELECT
+			    rnodt.rn,
+			    rnodt.no,
+			    rnodt.title,
+			    rnodt.hit,
+			    rnodt.reg_date,
+			    rnodt.user_no,
+			    rnodt.name
+			FROM
+			    (
+			        SELECT
+			            ROWNUM rn,
+			            odt.no,
+			            odt.title,
+			            odt.hit,
+			            odt.reg_date,
+			            odt.user_no,
+			            odt.name
+			        FROM
+			            (
+			                SELECT
+			                    b.no,
+			                    b.title,
+			                    b.hit,
+			                    b.reg_date,
+			                    b.user_no,
+			                    u.name
+			                FROM
+			                    board b LEFT OUTER JOIN users u
+			                    ON b.user_no = u.no
+		]]>
+		<if test=" keyword != '' and keyword != null ">
+		<![CDATA[
+							WHERE
+								b.title LIKE '%'||#{keyword}||'%'
+								OR u.name LIKE '%'||#{keyword}||'%'
+		]]>
+		</if>
+		<![CDATA[
+			                ORDER BY
+			                    b.no DESC
+			            ) odt
+			    ) rnodt
+			WHERE
+			        #{ startRnum } <= rn
+			    AND rn <= #{ endRnum }
+		]]>
+	</select>
+
+
+	<!-- paging practice - listCount -->
+	<select id="selectTotalCnt" parameterType="String" resultType="int">
+		<![CDATA[
+			SELECT
+				COUNT(no)
+		]]>
+		<choose>
+			<when test=" value != null and value != '' ">
+		    <![CDATA[
+		    	FROM
+		    		(
+		    			SELECT
+		    				b.no
+		    			FROM
+		    				board b RIGHT OUTER JOIN users u
+		    				ON u.no = b.user_no
+		    			WHERE
+						    b.title LIKE '%'||#{keyword}||'%'
+						    OR u.name LIKE '%'||#{keyword}||'%'
+						)
+			]]>
+			</when>
+			
+			<otherwise>
+			<![CDATA[
+				FROM
+					board
+			]]>
+			</otherwise>
+		</choose>
+	</select>
+
+
 	<select id="boardList" parameterType="String" resultMap="resultMapBoardVo">
 		<![CDATA[
 			SELECT
@@ -28,7 +114,7 @@
 			    ON b.user_no = u.no
 		]]>
 
-		<if test=" value != null or value != '' ">
+		<if test=" value != null and value != '' ">
 	    <![CDATA[
 	    	WHERE
 			    b.title LIKE '%'||#{keyword}||'%'

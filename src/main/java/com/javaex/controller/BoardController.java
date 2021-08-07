@@ -1,12 +1,13 @@
 package com.javaex.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,14 +23,34 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 	
-	@RequestMapping(value = "/list", method = { RequestMethod.GET, RequestMethod.POST })
+	// paging practice
+	@RequestMapping("/list2")
+	public String list2(
+			Model model,
+			@RequestParam(value = "crtPage", required = false, defaultValue = "1") int crtPage,
+			@RequestParam(value = "keyword", required = false, defaultValue = "") String keyword
+		) {
+		System.out.println("boardCtrl: list2;");
+		/* Service에서 처리
+		 * if ( crtPage < 1) { crtPage = 1; }
+		 */
+		Map<String, Object> boardListMap = boardService.getList2(crtPage, keyword);
+		
+		model.addAttribute("boardListMap", boardListMap);
+		
+		return "/board/list2";
+	}
+	
+	
+	
+	@RequestMapping("/list")
 	public String list(Model model, @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword) {
 		model.addAttribute("boardMap", boardService.boardMap(keyword)); // --> boardMap = { boardDao.listCount(keyword), boardDao.boardList(keyword) }
 		
 		return "/board/list";
 	}
 	
-	@RequestMapping(value = "/writeForm", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping("/writeForm")
 	public String writeForm(HttpSession session) {
 		// 로그인 정보가 없을때
 		
@@ -49,7 +70,7 @@ public class BoardController {
 		
 	}
 	
-	@RequestMapping(value = "/write", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping("/write")
 	public String write(@ModelAttribute BoardVo boardVo, HttpSession session) {
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		
@@ -71,7 +92,7 @@ public class BoardController {
 		return "redirect:/board/list";
 	}
 	
-	@RequestMapping(value = "/read", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping("/read")
 	public String read(Model model, @RequestParam(value = "no", required = false, defaultValue = "0") int no) {
 		// @PathVariable에 defaultValue 사용 불가능: @RequestMapping의 value 값 추가: /read/ 뒤의 값이 오지 않을 경우 ERROR
 		if (no == 0) { // read에 no파라미터가 입력되지 않았을때 0으로 처리하고 redirect:/board/list
@@ -84,7 +105,7 @@ public class BoardController {
 		}
 	}
 	
-	@RequestMapping(value = "/modifyForm", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping("/modifyForm")
 	public String modifyForm(Model model, @RequestParam(value = "no", required = false, defaultValue = "0") int no, HttpSession session) {
 		
 		if (no == 0) { // modifyForm에 no파라미터가 입력되지 않았을때 0으로 처리하고 redirect:/board/list
@@ -114,7 +135,7 @@ public class BoardController {
 		
 	}
 	
-	@RequestMapping(value = "/modify", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping("/modify")
 	public String modify(@ModelAttribute BoardVo boardVo) {
 		String boardVoTitle = boardVo.getTitle();
 		int boardVoNo = boardVo.getNo();
@@ -129,7 +150,7 @@ public class BoardController {
 		return "redirect:/board/read?no=" + boardVoNo;
 	}
 	
-	@RequestMapping(value = "/delete", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping("/delete")
 	public String delete(@RequestParam(value = "no", required = false, defaultValue = "0") int no, HttpSession session) {
 		BoardVo boardVo = new BoardVo();
 		
