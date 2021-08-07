@@ -22,17 +22,27 @@ public class GuestbookDao {
 	}
 	
 	// insert
-	public void addGuestbook(GuestbookVo guestbookVo) {
-		sqlSession.insert("guestbook.addGuestbook", guestbookVo);
+	public int addGuestbook(GuestbookVo guestbookVo) {
 		
+		return sqlSession.insert("guestbook.addGuestbook", guestbookVo);
+	}
+	
+	// insertSelectKey - Ajax
+	public int addGuestbookKey(GuestbookVo guestbookVo) {
+		System.out.println("Dao: addGuestbookKey - 1 - " + guestbookVo);
+		return sqlSession.insert("guestbook.addGuestbookKey", guestbookVo);
+	}
+	
+	// getGuestInfo - Ajax
+	public GuestbookVo selectGuestInfo(int no) {
+		
+		return sqlSession.selectOne("guestbook.selectGuestInfo", no);
 	}
 	
 	// delete
-	public void deleteGuestbook(GuestbookVo guestbookVo) {
-		sqlSession.delete("guestbook.deleteGuestbook", guestbookVo);
+	public int deleteGuestbook(GuestbookVo guestbookVo) {
 		
+		return sqlSession.delete("guestbook.deleteGuestbook", guestbookVo);
 	}
-	
-	
 	
 }

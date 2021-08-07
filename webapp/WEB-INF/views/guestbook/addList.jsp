@@ -25,8 +25,8 @@
 			<div id="aside">
 				<h2>방명록</h2>
 				<ul>
-					<li>일반방명록</li>
-					<li>ajax방명록</li>
+					<li><a href="${ pageContext.request.contextPath }/guestbook/addList">일반방명록</a></li>
+					<li><a href="${ pageContext.request.contextPath }/guestbook/ajaxMain">ajax방명록</a></li>
 				</ul>
 			</div>
 			<!-- //aside -->
@@ -46,7 +46,7 @@
 				<!-- //content-head -->
 
 				<div id="guestbook">
-					<form action="${ pageContext.request.contextPath }/guest/add" method="post">
+					<form action="${ pageContext.request.contextPath }/guestbook/add" method="post">
 						<table id="guestAdd">
 							<colgroup>
 								<col style="width: 70px;">
@@ -94,7 +94,7 @@
 							<td>${ guestVo.no }</td>
 							<td>${ guestVo.name }</td>
 							<td>${ guestVo.date }</td>
-							<td><a href="${ pageContext.request.contextPath }/guest/deleteForm?no=${ guestVo.no }">[삭제]</a></td>
+							<td><a href="${ pageContext.request.contextPath }/guestbook/deleteForm?no=${ guestVo.no }">[삭제]</a></td>
 						</tr>
 						<tr>
 							<td colspan=4 class="text-left">${ guestVo.content }</td>

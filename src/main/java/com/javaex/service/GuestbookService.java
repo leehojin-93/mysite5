@@ -20,12 +20,24 @@ public class GuestbookService {
 		return gList;
 	}
 	
-	public void addGuestbook(GuestbookVo guestbookVo){
-		guestbookDao.addGuestbook(guestbookVo);
+	public int addGuestbook(GuestbookVo guestbookVo){
+		
+		return guestbookDao.addGuestbook(guestbookVo);
 	}
 	
-	public void deleteGuestbook(GuestbookVo guestbookVo) {
-		guestbookDao.deleteGuestbook(guestbookVo);
+	//  - Ajax
+	public GuestbookVo addResultVo(GuestbookVo guestbookVo) {
+		System.out.println("Service: addResultVo - 1 - " + guestbookVo);
+		guestbookDao.addGuestbookKey(guestbookVo);
+		System.out.println("Service: addResultVo - 2 - " + guestbookVo);
+		
+		int no = guestbookVo.getNo();
+		return guestbookDao.selectGuestInfo(no);
+	}
+	
+	public int deleteGuestbook(GuestbookVo guestbookVo) {
+		
+		return guestbookDao.deleteGuestbook(guestbookVo);
 	}
 
 }

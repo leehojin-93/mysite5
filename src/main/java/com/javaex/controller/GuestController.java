@@ -11,14 +11,14 @@ import com.javaex.service.GuestbookService;
 import com.javaex.vo.GuestbookVo;
 
 @Controller
-@RequestMapping(value = "/guest", method = { RequestMethod.GET, RequestMethod.POST })
+@RequestMapping(value = "/guestbook", method = { RequestMethod.GET, RequestMethod.POST })
 public class GuestController {
 	
 	@Autowired
 	private GuestbookService guestbookService;
 	
 	// addList
-	@RequestMapping(value = "/addList", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping("/addList")
 	public String addList(Model model) {
 //		List<GuestbookVo> gList = guestbookDao.getList();
 //		model.addAttribute("gList", gList);
@@ -28,26 +28,33 @@ public class GuestController {
 	}
 
 	// add
-	@RequestMapping(value = "/add", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping("/add")
 	public String add(@ModelAttribute GuestbookVo guestbookVo) {
 		guestbookService.addGuestbook(guestbookVo);
 		
-		return "redirect:/guest/addList";
+		return "redirect:/guestbook/addList";
 	}
 	
 	// deleteForm
-	@RequestMapping(value = "/deleteForm", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping("/deleteForm")
 	public String deleteForm() {
 
 		return "/guestbook/deleteForm";
 	}
 	
 	// delete
-	@RequestMapping(value = "/delete", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping("/delete")
 	public String delete(@ModelAttribute GuestbookVo guestbookVo) {
 		guestbookService.deleteGuestbook(guestbookVo);
 		
-		return "redirect:/guest/addList";
+		return "redirect:/guestbook/addList";
+	}
+	
+	// Ajax방명록 .jsp
+	@RequestMapping("/ajaxMain")
+	public String ajaxMain() {
+		
+		return "/guestbook/ajaxList";
 	}
 
 }

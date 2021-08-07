@@ -44,6 +44,46 @@
 		]]>
 	</insert>
 	
+	<!-- insert 후 시퀀스no값 받기 - Ajax -->
+	<insert id="addGuestbookKey" parameterType="GuestVo">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			<![CDATA[
+				SELECT
+					sqc_no.NEXTVAL
+				FROM
+					dual
+			]]>
+		</selectKey>
+		<![CDATA[
+			INSERT INTO
+				guestbook
+			VALUES
+				(
+					#{ no },
+					#{ name },
+					#{ password },
+					#{ content },
+					sysdate
+				)
+		]]>
+	</insert>
+	
+	<!-- guestInfo - Ajax -->
+	<select id="selectGuestInfo" parameterType="int" resultMap="resultMapGuestbook">
+		<![CDATA[
+			SELECT
+				no,
+				name,
+				password,
+				content,
+				reg_date
+			FROM
+				guestbook
+			WHERE
+				no = #{ no }
+		]]>
+	</select>
+	
 	<delete id="deleteGuestbook" parameterType="GuestVo">
 		<![CDATA[
 			DELETE FROM
