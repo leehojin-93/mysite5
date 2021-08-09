@@ -21,13 +21,7 @@
 		<!-- //nav -->
 
 		<div id="container" class="clearfix">
-			<div id="aside">
-				<h2>방명록</h2>
-				<ul>
-					<li>일반방명록</li>
-					<li>ajax방명록</li>
-				</ul>
-			</div>
+			<c:import url="/WEB-INF/views/includes/asideGuestbook.jsp" />
 			<!-- //aside -->
 
 			<div id="content">

@@ -20,13 +20,7 @@
 		<!-- //nav -->
 
 		<div id="container" class="clearfix">
-			<div id="aside">
-				<h2>게시판</h2>
-				<ul>
-					<li><a href="">일반게시판</a></li>
-					<li><a href="">댓글게시판</a></li>
-				</ul>
-			</div>
+			<c:import url="/WEB-INF/views/includes/asideBoard.jsp" />
 			<!-- //aside -->
 
 			<div id="content">
@@ -52,7 +46,7 @@
 								<button type="submit" id=btn_search>검색</button>
 							</div>
 						</form>
-						<table >
+						<table>
 							<thead>
 								<tr>
 									<th>번호</th>
