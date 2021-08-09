@@ -56,14 +56,14 @@ public class BoardService {
 		int totalCount = boardDao.selectTotalCnt(keyword);
 		System.out.println(totalCount);
 
-		// 페이지당 버튼 출력 개수
+		// 게시판의 페이지 버튼 개수
 		int pageBtnCount = 8;
 
-		// 페이지의 마지막 버튼
+		// 게시판의 페이지 버튼의 마지막 번호
 		int endPageBtnNo = (int) Math.ceil(crtPage / (double) pageBtnCount) * pageBtnCount;
 		System.out.println(endPageBtnNo);
 
-		// 페이지의 시작 버튼
+		// 게시판의 페이지 버튼의 시작 번호
 		int startPageBtnNo = endPageBtnNo - (pageBtnCount - 1);
 
 		// 페이지 넘김 화살표 버튼
